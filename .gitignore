@@ -1,6 +1,7 @@
 .idea
 /docs
 package-lock.json
+/dist
 
 # Logs
 logs
