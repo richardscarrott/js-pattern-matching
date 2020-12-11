@@ -13,10 +13,13 @@ class PatternMatching {
   }
 
   match(comparator, evaluator) {
-    if (typeof comparator !== 'function') {
-      comparator = (typeof comparator !== 'object') ? strictEqual(comparator) : objectStrictLike(comparator);
+    if (typeof comparator !== "function") {
+      comparator =
+        typeof comparator !== "object"
+          ? strictEqual(comparator)
+          : objectStrictLike(comparator);
     }
-    if (typeof evaluator !== 'function') {
+    if (typeof evaluator !== "function") {
       evaluator = returnValue(evaluator);
     }
 
@@ -26,9 +29,8 @@ class PatternMatching {
   }
 
   default(evaluator = void 0) {
-    this._defaultEvaluator = (typeof evaluator !== 'function')
-      ? returnValue(evaluator)
-      : evaluator;
+    this._defaultEvaluator =
+      typeof evaluator !== "function" ? returnValue(evaluator) : evaluator;
 
     return this;
   }
@@ -51,30 +53,47 @@ class PatternMatching {
 function pattern(value) {
   const patternMatcher = new PatternMatching();
   const execPatternMatcher = () => patternMatcher.exec(value);
-  
-  return new Proxy(function(){}, {
+
+  return new Proxy(function () {}, {
     // so PatternMatching instance is callable
     apply(target, thisArg, args) {
       return patternMatcher.exec(value);
     },
     get(target, prop, reciever) {
       // so exec is hotpatched and callable with no value (because value provided as pattern argument)
-      if (prop === 'exec') return execPatternMatcher;
+      if (prop === "exec") return execPatternMatcher;
 
       const targetProp = patternMatcher[prop];
       // So other method is hotpatched for keep fluent api but instead of return `this` instance of `PatternMatching`
       // return the proxy
-      if (typeof targetProp === 'function') return (...args) => {
-        const result = targetProp.apply(patternMatcher, args);
-        
-        return (result === patternMatcher) ? reciever : result;
-      };
+      if (typeof targetProp === "function")
+        return (...args) => {
+          const result = targetProp.apply(patternMatcher, args);
+
+          return result === patternMatcher ? reciever : result;
+        };
 
       // else return the property
       return targetProp;
-    }
+    },
   });
 }
 
 export default pattern;
 export { PatternMatching };
+
+export { default as shallowEqual } from "./comparators/shallowEqual.js";
+export { default as strictEqual } from "./comparators/strictEqual.js";
+
+export { default as haveKeys } from "./comparators/haveKeys.js";
+
+export { default as objectStrictLike } from "./comparators/objectStrictLike.js";
+export { default as objectShallowLike } from "./comparators/objectShallowLike.js";
+
+export { default as objectDeepStrictLike } from "./comparators/objectDeepStrictLike.js";
+export { default as objectDeepShallowLike } from "./comparators/objectDeepShallowLike.js";
+
+export { default as returnValue } from "./evaluators/returnValue.js";
+export { default as extractValue } from "./evaluators/extractValue.js";
+export { default as throwError } from "./evaluators/throwError.js";
+export { default as throwNewError } from "./evaluators/throwNewError.js";

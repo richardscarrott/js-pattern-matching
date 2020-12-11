@@ -1,24 +1,9 @@
 {
-  "name": "@tpoisseau/pattern-matching",
+  "name": "@riscarrott/pattern-matching",
   "version": "1.0.5",
   "description": "In waiting Pattern Matching proposal adoption",
-  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./comparators": {
-      "import": "./dist/es/comparators.js",
-      "require": "./dist/cjs/comparators.js"
-    },
-    "./evaluators": {
-      "import": "./dist/es/evaluators.js",
-      "require": "./dist/cjs/evaluators.js"
-    }
-  },
   "scripts": {
     "test": "ava --timeout=2m",
     "test:watch": "ava --watch",
