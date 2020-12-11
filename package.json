@@ -1,6 +1,6 @@
 {
   "name": "@riscarrott/pattern-matching",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "In waiting Pattern Matching proposal adoption",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
